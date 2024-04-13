@@ -217,6 +217,9 @@ jobs:
     - name: Defconfig
       run: |
         cd openwrt
+        rm -rf feeds/packages/lang/golang
+        git clone https://github.com/kenzok8/golang feeds/packages/lang/golang
+        rm -rf feeds/packages/net/{alist,adguardhome,brook,gost,mosdns,redsocks*,smartdns,trojan*,v2ray*,xray*}
         make defconfig
         if [[ ! "${{matrix.target}}" =~ (armsr_armv8|bcm27xx_*|rockchip_*|sunxi_*|x86_*|meson_meson8b) ]]; then
         sed -n '/# Wireless Drivers/,/# end of Wireless Drivers/p' .config | sed -e 's/=m/=n/' >>.config
